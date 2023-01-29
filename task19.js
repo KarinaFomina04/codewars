@@ -1,46 +1,80 @@
-//TODO
+
 
 function sumIntervals(intervals) {
-    for(i=0;i<intervals.length;i++) {
-        let min = intervals[i];
-        let index;
-        for(j=i;j<intervals.length;j++) {
-          if(min[0] > intervals[j][0]) {
-            min = intervals[j];
-            index = j;
-          }
-        }
-        intervals[index] = intervals[i];
-        intervals[i] = min;
-      }
-    
-      for(i=0;i<intervals.length-1;i+=0) {
-        if(intervals[i][1] <= intervals[i+1][0]) {
-          i++;
-          continue;
-        } else {
-          intervals[i+1][0] = (intervals[i][0] <= intervals[i+1][0]) ? intervals[i][0] : intervals[i+1][0];
-          intervals[i+1][1] = (intervals[i][1] >= intervals[i+1][1]) ? intervals[i][1] : intervals[i+1][1];
-          intervals.splice(i,1);
-        }
-      }
-
-    let sum = 0
+    let firstSum = intervals[0][1] - intervals[0][0]
+    let sum = intervals[0][1] - intervals[0][0];
+    console.log(sum, 'sum');
     for (let i = 0; i < intervals.length; i++) {
-        sum += intervals[i][1] - intervals[i][0]
+        if (i === 1 && firstSum === sum) {
+            return sum;
+        }
+        for (let j = i+1; j < intervals.length; j++) {
+            //console.log('changed sum', sum)
+            if(intervals[i][0] < intervals[j][0] && intervals[i][1] > intervals[j][0]) { // первый входит во второй
+                if (intervals[i][0] < intervals[j][1] && intervals[i][1] > intervals[j][1]) {
+                    if (i === 0) {
+                        sum += 0
+                        console.log('in+', 0)
+                    } else {
+                         sum -= (intervals[i][1] - intervals[j][1]) - (intervals[i][0] - intervals[j][0])
+                         console.log('in-', (intervals[i][1] - intervals[j][1]) - (intervals[i][0] - intervals[j][0]))
+                        // sum += 0
+                        // console.log('in-', 0)
+                    }
+                } else {
+                    if (i === 0) {
+                        sum += (intervals[j][1] - intervals[i][1])
+                        console.log('lol+', intervals[j][1] - intervals[i][1])
+                    } else {
+                        sum -= intervals[i][1] - intervals[j][0]
+                        console.log('lol-', intervals[i][1] - intervals[j][0])
+                    }
+                }
+            } else if (intervals[j][0] < intervals[i][0] && intervals[j][1] > intervals[i][0]) { // второй входит в первый
+                if (intervals[j][0] < intervals[i][1] && intervals[j][1] > intervals[i][1]) {
+                    if (i === 0) {
+                        sum += (intervals[j][1] - intervals[i][1]) - (intervals[j][0] - intervals[i][0])
+                        console.log('more+', (intervals[j][1] - intervals[i][1]) - (intervals[j][0] - intervals[i][0]))
+                    }else {
+                        sum -= (intervals[j][1] - intervals[i][1]) - (intervals[j][0] - intervals[i][0])
+                        console.log('more-', (intervals[j][1] - intervals[i][1]) - (intervals[j][0] - intervals[i][0]))
+                    }
+                } else {
+                    if (i === 0) {
+                        sum += intervals[i][0] - intervals[j][0]
+                        console.log('kek+', intervals[i][0] - intervals[j][0])
+                    } else {
+                        sum -= intervals[j][1] - intervals[i][0]
+                        console.log('kek-', intervals[j][1] - intervals[i][0])
+                    }
+                }
+            } else if(intervals[j][0] === intervals[i][0] && intervals[j][1] === intervals[i][1])  {
+                if (i === 0) {
+                    sum += 0;
+                    console.log('equals+')
+                } else {
+                    console.log('equals-')
+                    sum -= intervals[i][1] - intervals[i][0]
+                }
+            } else {
+                if (i === 0) {
+                    sum += intervals[j][1] - intervals[j][0]
+                    console.log('notperesec+', intervals[j][1] - intervals[j][0])
+                }else{
+                    sum += 0
+                    console.log('notperesec-', 0)
+                }
+            }
+        }
     }
-
-    
     return sum;
 }
 
-var s_time = performance.now()
-
 console.log(sumIntervals( [
-    [0, 20],
-    [-1e8, 10],
-    [30, 40]
+    [ 18, 23 ],
+  [ 3, 12 ],
+  [ 12, 22 ],
+  [ -20, -17 ],
+  [ 1, 11 ],
+  [ 15, 24 ]
  ] ))
-
- var dur = performance.now() - s_time
-console.log(dur)
