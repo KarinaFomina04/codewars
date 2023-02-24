@@ -10,11 +10,27 @@
 // Output string must be two numbers separated by a single space, and highest number is first.
 
 function highAndLow(numbers){
-    numbers = numbers.split(' ').map(Number);
-    return Math.max.apply(0, numbers) + ' ' + Math.min.apply(0, numbers);
+    numbers = numbers.split(' ');
+    return Math.max(...numbers) + ' ' + Math.min(...numbers);
   }
 
 console.log(highAndLow("8 3 -5 42 -1 0 0 -9 4 7 4 -4"))
 console.log(highAndLow("1 2 3"))
+
+
+//Old realisation
+// numbers = numbers.split(' ').map(Number);
+// return Math.max.apply(0, numbers) + ' ' + Math.min.apply(0, numbers);
+
+
+
+
+
+// function highAndLowNew(numbers){
+//   let newArr = []
+//   for(let i=0; i < numbers.length; i++){
+//     newArr = numbers[i].
+//   }
+// }
 
   
