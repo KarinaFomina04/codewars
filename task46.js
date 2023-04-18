@@ -14,6 +14,11 @@
 //     }
 // }
 
+// function quadrant(x, y) {
+//     return ["11","-11","-1-1","1-1"].indexOf(`${Math.sign(x)}${Math.sign(y)}`) + 1;
+// }
+
 function quadrant(x, y) {
-    return ["11","-11","-1-1","1-1"].indexOf(`${Math.sign(x)}${Math.sign(y)}`) + 1;
+    return [1, 2, 4, 3][2*(y < 0) + (x < 0)];
 }
+
